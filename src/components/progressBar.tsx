@@ -1,12 +1,24 @@
 "use client";
-import { Award, Lightbulb, Pencil, Wand } from "lucide-react";
+import { Award, Check, Lightbulb, Pencil, Wand } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-export default function ProgressBar() {
-  const [onboardingStep, setOnboardingStep] = useState(0);
+interface ProgressBarProps {
+  selectedScreen: number;
+  selectedStyle: string;
+  textColor: string;
+}
 
+export default function ProgressBar({
+  selectedScreen,
+  selectedStyle,
+  textColor,
+}: ProgressBarProps) {
+  const getProgress = () => {
+    const progress = (selectedScreen / 3) * 100;
+    return progress > 100 ? 100 : progress;
+  };
   return (
     <div>
       <section className="container flex flex-col jusify-center items-center gap-2">
@@ -15,17 +27,30 @@ export default function ProgressBar() {
             <div
               className={cn(
                 " flex justify-center items-center h-10 w-10 rounded-full  ",
-                onboardingStep === 0
-                  ? "bg-gradient-to-r from-teal-500 to-emerald-500 shadow-md text-white"
-                  : "bg-slate-100 text-slate-400"
+                selectedScreen === 0
+                  ? cn(
+                      " shadow-md text-white bg-gradient-to-br ",
+                      selectedStyle
+                    )
+                  : selectedScreen > 0
+                  ? cn("bg-gradient-to-br", selectedStyle)
+                  : "bg-slate-100 "
               )}
             >
-              <Wand className="h-5 w-5" />
+              {selectedScreen === 0 ? (
+                <Wand className="h-5 w-5" />
+              ) : (
+                <Check className="h-5 w-5 text-white " />
+              )}
             </div>
             <span
               className={cn(
                 "text-xs",
-                onboardingStep === 0 ? "text-teal-600" : "text-slate-400"
+                selectedScreen === 0
+                  ? textColor
+                  : selectedScreen > 0
+                  ? textColor
+                  : "text-slate-400"
               )}
             >
               Style Selection
@@ -35,17 +60,32 @@ export default function ProgressBar() {
             <div
               className={cn(
                 " flex justify-center items-center h-10 w-10 rounded-full  ",
-                onboardingStep === 1
-                  ? "bg-gradient-to-r from-teal-500 to-emerald-500 shadow-md text-white"
-                  : "bg-slate-100 text-slate-400"
+                selectedScreen === 1
+                  ? cn(
+                      " shadow-md text-white bg-gradient-to-br ",
+                      selectedStyle
+                    )
+                  : selectedScreen > 1
+                  ? cn("bg-gradient-to-br", selectedStyle)
+                  : "bg-slate-100 "
               )}
             >
-              <Pencil className="h-5 w-5" />
+              {selectedScreen === 1 ? (
+                <Pencil className="h-5 w-5" />
+              ) : selectedScreen > 1 ? (
+                <Check className="h-5 w-5 text-white " />
+              ) : (
+                <Pencil className="h-5 w-5 text-slate-400" />
+              )}
             </div>
             <span
               className={cn(
                 "text-xs",
-                onboardingStep === 1 ? "text-teal-600" : "text-slate-400"
+                selectedScreen === 1
+                  ? textColor
+                  : selectedScreen > 1
+                  ? textColor
+                  : "text-slate-400"
               )}
             >
               Prompt
@@ -55,17 +95,32 @@ export default function ProgressBar() {
             <div
               className={cn(
                 " flex justify-center items-center h-10 w-10 rounded-full  ",
-                onboardingStep === 2
-                  ? "bg-gradient-to-r from-teal-500 to-emerald-500 shadow-md text-white"
-                  : "bg-slate-100 text-slate-400"
+                selectedScreen === 2
+                  ? cn(
+                      " shadow-md text-white bg-gradient-to-br ",
+                      selectedStyle
+                    )
+                  : selectedScreen > 2
+                  ? cn("bg-gradient-to-br", selectedStyle)
+                  : "bg-slate-100 "
               )}
             >
-              <Lightbulb className="h-5 w-5" />
+              {selectedScreen === 2 ? (
+                <Lightbulb className="h-5 w-5" />
+              ) : selectedScreen > 2 ? (
+                <Check className="h-5 w-5 text-white " />
+              ) : (
+                <Lightbulb className="h-5 w-5 text-slate-400" />
+              )}
             </div>
             <span
               className={cn(
                 "text-xs",
-                onboardingStep === 2 ? "text-teal-600" : "text-slate-400"
+                selectedScreen === 2
+                  ? textColor
+                  : selectedScreen > 2
+                  ? textColor
+                  : "text-slate-400"
               )}
             >
               Analysis
@@ -75,17 +130,32 @@ export default function ProgressBar() {
             <div
               className={cn(
                 " flex justify-center items-center h-10 w-10 rounded-full  ",
-                onboardingStep === 3
-                  ? "bg-gradient-to-r from-teal-500 to-emerald-500 shadow-md text-white"
-                  : "bg-slate-100 text-slate-400"
+                selectedScreen === 3
+                  ? cn(
+                      " shadow-md text-white bg-gradient-to-br ",
+                      selectedStyle
+                    )
+                  : selectedScreen > 3
+                  ? cn("bg-gradient-to-br", selectedStyle)
+                  : "bg-slate-100 "
               )}
             >
-              <Award className="h-5 w-5" />
+              {selectedScreen === 3 ? (
+                <Award className="h-5 w-5" />
+              ) : selectedScreen > 3 ? (
+                <Check className="h-5 w-5 text-white " />
+              ) : (
+                <Award className="h-5 w-5 text-slate-400" />
+              )}
             </div>
             <span
               className={cn(
                 "text-xs",
-                onboardingStep === 3 ? "text-teal-600" : "text-slate-400"
+                selectedScreen === 3
+                  ? textColor
+                  : selectedScreen > 3
+                  ? textColor
+                  : "text-slate-400"
               )}
             >
               Leaderboard
@@ -93,7 +163,7 @@ export default function ProgressBar() {
           </div>
         </div>
         <div className="w-full">
-          <Progress />
+          <Progress progressStyle={selectedStyle} value={getProgress()} />
         </div>
       </section>
     </div>
