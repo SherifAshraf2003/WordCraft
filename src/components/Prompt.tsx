@@ -37,8 +37,7 @@ export default function Prompt({
     // Handle the submission of the user's response
     // You can add your logic here to process the response
     console.log("User Response:", userResponse);
-    // Reset the user response after submission if needed
-    setUserResponse("");
+
     // Optionally, you can navigate to another screen or show a success message
     setSelectedScreen(2);
   };

@@ -1,5 +1,7 @@
 "use client";
+import Analysis from "@/components/Analysis";
 import Header from "@/components/header";
+import Leaderboard from "@/components/Leaderboard";
 import ProgressBar from "@/components/progressBar";
 import Prompt from "@/components/Prompt";
 import StyleSelection from "@/components/StyleSelection";
@@ -70,6 +72,32 @@ export default function Home() {
                 userResponse={userResponse}
                 setUserResponse={setUserResponse}
                 setSelectedScreen={setSelectedScreen}
+              />
+            )}
+
+            {selectedScreen === 2 && (
+              <Analysis
+                borderColor={borderColor}
+                writingStyle={writingStyle}
+                selectedStyle={selectedStyle}
+                bgColor={bgColor}
+                textColor={textColor}
+                userResponse={userResponse}
+                setSelectedScreen={setSelectedScreen}
+              />
+            )}
+
+            {selectedScreen === 3 && (
+              <Leaderboard
+                borderColor={borderColor}
+                writingStyle={writingStyle}
+                selectedStyle={selectedStyle}
+                bgColor={bgColor}
+                textColor={textColor}
+                setUserResponse={setUserResponse}
+                setSelectedScreen={setSelectedScreen}
+                setSelectedStyle={setSelectedStyle}
+                setTextColor={setTextColor}
               />
             )}
           </section>
