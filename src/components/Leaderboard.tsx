@@ -70,7 +70,7 @@ export default function Leaderboard({
       name: isLoggedIn ? username : "Guest",
       score: 85,
       isCurrentUser: true,
-      style: selectedStyle,
+      style: writingStyle,
     };
 
     // Insert the user at position 6 (index 5)
@@ -112,63 +112,66 @@ export default function Leaderboard({
               .filter(
                 (entry) =>
                   writingStyle === "" ||
-                  entry.style === writingStyle.toLowerCase()
+                  entry.style.toLowerCase() === writingStyle.toLowerCase()
               )
-              .map((entry, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "flex items-center justify-between p-3 rounded-lg border",
-                    entry?.isCurrentUser
-                      ? `${bgColor} ${borderColor}`
-                      : "bg-white border-slate-200"
-                  )}
-                >
-                  <div className="flex items-center">
-                    <div
-                      className={cn(
-                        "flex items-center justify-center w-8 h-8 rounded-full font-medium mr-3",
-                        index < 3
-                          ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-white"
-                          : "bg-slate-100 text-slate-700"
-                      )}
-                    >
-                      {index + 1}
-                    </div>
-                    <div>
-                      <span
-                        className={`font-medium ${
-                          entry.isCurrentUser ? textColor : "text-slate-700"
-                        }`}
-                      >
-                        {entry.name}
-                      </span>
-                      {entry.style && (
-                        <Badge
-                          variant="outline"
-                          className={cn(
-                            "ml-2 text-xs text-white capitalize bg-gradient-to-r ",
-                            selectedStyle
-                          )}
-                        >
-                          {entry.style}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                  <Badge
-                    variant={index < 3 ? "default" : "outline"}
+              .map((entry, index) => {
+                console.log(entry);
+                return (
+                  <div
+                    key={index}
                     className={cn(
-                      "px-2.5",
-                      index < 3
-                        ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-white"
-                        : ""
+                      "flex items-center justify-between p-3 rounded-lg border",
+                      entry?.isCurrentUser
+                        ? `${bgColor} ${borderColor}`
+                        : "bg-white border-slate-200"
                     )}
                   >
-                    {entry.score}
-                  </Badge>
-                </div>
-              ))}
+                    <div className="flex items-center">
+                      <div
+                        className={cn(
+                          "flex items-center justify-center w-8 h-8 rounded-full font-medium mr-3",
+                          index < 3
+                            ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-white"
+                            : "bg-slate-100 text-slate-700"
+                        )}
+                      >
+                        {index + 1}
+                      </div>
+                      <div>
+                        <span
+                          className={`font-medium ${
+                            entry.isCurrentUser ? textColor : "text-slate-700"
+                          }`}
+                        >
+                          {entry.name}
+                        </span>
+                        {entry.style && (
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "ml-2 text-xs text-white capitalize bg-gradient-to-r ",
+                              selectedStyle
+                            )}
+                          >
+                            {entry.style}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    <Badge
+                      variant={index < 3 ? "default" : "outline"}
+                      className={cn(
+                        "px-2.5",
+                        index < 3
+                          ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-white"
+                          : ""
+                      )}
+                    >
+                      {entry.score}
+                    </Badge>
+                  </div>
+                );
+              })}
           </div>
         </ScrollArea>
       </CardContent>
@@ -176,13 +179,16 @@ export default function Leaderboard({
         <Button
           variant="outline"
           onClick={() => setSelectedScreen(2)}
-          className={cn("border-slate-200 hover:bg-slate-50", textColor)}
+          className={cn(
+            "border-slate-200 hover:bg-slate-50 transition-all hover:scale-110 ",
+            textColor
+          )}
         >
           <ChevronLeft className="mr-2 h-4 w-4" /> Back to Analysis
         </Button>
         <Button
           onClick={handleReset}
-          className={`bg-gradient-to-r ${selectedStyle} hover:opacity-90 text-white`}
+          className={`bg-gradient-to-r ${selectedStyle} hover:opacity-90 text-white transition-all hover:scale-110`}
         >
           Start New Challenge
         </Button>

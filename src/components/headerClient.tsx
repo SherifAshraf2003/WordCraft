@@ -1,7 +1,8 @@
 "use client";
-import { Dialog, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 export default function HeaderClient() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -17,6 +18,16 @@ export default function HeaderClient() {
               Login
             </Button>
           </DialogTrigger>
+          <DialogContent>
+            <Tabs className="w-full p-4 ">
+              <TabsList className="w-full grid grid-cols-2 ">
+                <TabsTrigger value="login">Login</TabsTrigger>
+                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="login"></TabsContent>
+            </Tabs>
+          </DialogContent>
         </Dialog>
       )}
     </div>
