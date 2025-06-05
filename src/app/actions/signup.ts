@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
-import { loginSchema } from "../schemas/loginSchema";
 import { z } from "zod";
 import { signupSchema } from "../schemas/signupSchema";
 

@@ -1,7 +1,6 @@
 "use client";
 import { Award, Check, Lightbulb, Pencil, Wand } from "lucide-react";
 import { Progress } from "./ui/progress";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface ProgressBarProps {
@@ -33,8 +32,8 @@ export default function ProgressBar({
                       selectedStyle
                     )
                   : selectedScreen > 0
-                  ? cn("bg-gradient-to-br", selectedStyle)
-                  : "bg-slate-100 "
+                    ? cn("bg-gradient-to-br", selectedStyle)
+                    : "bg-slate-100 "
               )}
             >
               {selectedScreen === 0 ? (
@@ -49,8 +48,8 @@ export default function ProgressBar({
                 selectedScreen === 0
                   ? textColor
                   : selectedScreen > 0
-                  ? textColor
-                  : "text-slate-400"
+                    ? textColor
+                    : "text-slate-400"
               )}
             >
               Style Selection
@@ -66,8 +65,8 @@ export default function ProgressBar({
                       selectedStyle
                     )
                   : selectedScreen > 1
-                  ? cn("bg-gradient-to-br", selectedStyle)
-                  : "bg-slate-100 "
+                    ? cn("bg-gradient-to-br", selectedStyle)
+                    : "bg-slate-100 "
               )}
             >
               {selectedScreen === 1 ? (
@@ -84,8 +83,8 @@ export default function ProgressBar({
                 selectedScreen === 1
                   ? textColor
                   : selectedScreen > 1
-                  ? textColor
-                  : "text-slate-400"
+                    ? textColor
+                    : "text-slate-400"
               )}
             >
               Prompt
@@ -101,8 +100,8 @@ export default function ProgressBar({
                       selectedStyle
                     )
                   : selectedScreen > 2
-                  ? cn("bg-gradient-to-br", selectedStyle)
-                  : "bg-slate-100 "
+                    ? cn("bg-gradient-to-br", selectedStyle)
+                    : "bg-slate-100 "
               )}
             >
               {selectedScreen === 2 ? (
@@ -119,8 +118,8 @@ export default function ProgressBar({
                 selectedScreen === 2
                   ? textColor
                   : selectedScreen > 2
-                  ? textColor
-                  : "text-slate-400"
+                    ? textColor
+                    : "text-slate-400"
               )}
             >
               Analysis
@@ -136,8 +135,8 @@ export default function ProgressBar({
                       selectedStyle
                     )
                   : selectedScreen > 3
-                  ? cn("bg-gradient-to-br", selectedStyle)
-                  : "bg-slate-100 "
+                    ? cn("bg-gradient-to-br", selectedStyle)
+                    : "bg-slate-100 "
               )}
             >
               {selectedScreen === 3 ? (
@@ -154,8 +153,8 @@ export default function ProgressBar({
                 selectedScreen === 3
                   ? textColor
                   : selectedScreen > 3
-                  ? textColor
-                  : "text-slate-400"
+                    ? textColor
+                    : "text-slate-400"
               )}
             >
               Leaderboard

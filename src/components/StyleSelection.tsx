@@ -10,6 +10,14 @@ import {
 import { cn } from "@/lib/utils";
 import { writingStyles } from "@/constants/writingStyles";
 
+interface StyleObject {
+  color: string;
+  borderColor: string;
+  label: string;
+  bgColor: string;
+  textColor: string;
+}
+
 // Define a proper interface for the component props
 interface WritingStyleProps {
   setSelectedStyle: (style: string) => void;
@@ -28,7 +36,7 @@ export default function StyleSelection({
   setBgColor,
   setTextColor,
 }: WritingStyleProps) {
-  const handleStyleChange = (style: any) => {
+  const handleStyleChange = (style: StyleObject) => {
     setSelectedStyle(style.color);
     setBorderColor(style.borderColor);
     setWritingStyle(style.label);

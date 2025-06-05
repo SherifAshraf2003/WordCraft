@@ -8,13 +8,10 @@ import {
   Users,
   ArrowRight,
   CheckCircle,
-  Play,
   Target,
-  Zap,
   Star,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { createClient } from "@/app/utils/supabase/client";
 
 export default function Waitlist() {
@@ -66,7 +63,7 @@ export default function Waitlist() {
       }
 
       // Insert new email into waitlist
-      const { data, error: insertError } = await supabase
+      const { error: insertError } = await supabase
         .from("waitlist")
         .insert([
           {
@@ -85,12 +82,12 @@ export default function Waitlist() {
         return;
       }
 
-      // Get updated waitlist count
+      // Get updated waitlist count - using the count if needed for position calculation
       const { count } = await supabase
         .from("waitlist")
         .select("*", { count: "exact", head: true });
 
-      const newPosition = waitlistCount + 1;
+      const newPosition = count || waitlistCount + 1;
       setUserPosition(newPosition);
       setWaitlistCount(newPosition);
       setIsSubmitted(true);
@@ -168,7 +165,8 @@ export default function Waitlist() {
                 #{userPosition}
               </div>
               <p className="text-gray-700 mb-6 text-lg">
-                You're number <strong>{userPosition}</strong> on our waitlist!
+                You&apos;re number <strong>{userPosition}</strong> on our
+                waitlist!
               </p>
               <Badge className="bg-gradient-to-r mx-auto from-purple-600 to-pink-600 text-white px-6 py-2 text-sm">
                 Early Access Guaranteed
@@ -176,13 +174,13 @@ export default function Waitlist() {
             </Card>
 
             <p className="text-gray-600 mb-8 leading-relaxed">
-              We'll notify you as soon as WordCraft launches.
+              We&apos;ll notify you as soon as WordCraft launches.
             </p>
 
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
               <p className="text-green-800 text-sm">
-                ✅ Check your email! We've sent you a welcome message with more
-                details.
+                ✅ Check your email! We&apos;ve sent you a welcome message with
+                more details.
               </p>
             </div>
           </div>
@@ -355,9 +353,9 @@ export default function Waitlist() {
             ))}
           </div>
           <p className="text-gray-700 italic max-w-2xl mx-auto text-lg">
-            "This is exactly what I needed to improve my writing. The AI
+            &quot;This is exactly what I needed to improve my writing. The AI
             feedback is incredibly insightful and the gamified element makes it
-            addictive!"
+            addictive!&quot;
           </p>
           <p className="text-purple-600 font-semibold mt-3">
             - Sarah Chen, Content Writer

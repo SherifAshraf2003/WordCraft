@@ -30,36 +30,6 @@ interface AnalysisProps {
   setSelectedScreen: (screen: number) => void;
 }
 
-// Function to get analysis data based on selected style
-function getAnalysis(style: string) {
-  // Default analysis data that could be modified based on style
-  return {
-    metrics: {
-      clarity: 90,
-      structure: 85,
-      wordChoice: 80,
-      grammar: 95,
-    },
-    styleSpecific: {
-      score: 87,
-      tips: [
-        "Strengthen your literature review section",
-        "Add more counterarguments to demonstrate critical thinking",
-        "Consider more recent scholarly sources to support your claims",
-      ],
-    },
-  };
-}
-
-// Function to get style-specific colors
-function getStyleColors() {
-  return {
-    bgColor: "bg-teal-50",
-    borderColor: "border-teal-200",
-    color: "from-teal-500 to-emerald-500",
-  };
-}
-
 export default function Analysis({
   selectedStyle,
   bgColor,

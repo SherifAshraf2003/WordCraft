@@ -11,7 +11,6 @@ import {
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { login } from "@/app/actions/login";
 import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +21,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 
 export default function HeaderClient() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isLoggedin] = useState(false);
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -31,10 +30,6 @@ export default function HeaderClient() {
       password: "",
     },
   });
-  function onLoginSubmit(data: z.infer<typeof loginSchema>) {
-    console.log("Login data", data);
-    login(data);
-  }
 
   const signupForm = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -44,11 +39,6 @@ export default function HeaderClient() {
       password: "",
     },
   });
-
-  function onSignupSubmit(data: z.infer<typeof signupSchema>) {
-    console.log("Signup data", data);
-    // Perform signup action here
-  }
 
   return (
     <div>
@@ -81,7 +71,7 @@ export default function HeaderClient() {
                 <Form {...loginForm}>
                   <form
                     className="grid gap-4 py-4"
-                    onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+                    // onSubmit={loginForm.handleSubmit(onLoginSubmit)}
                   >
                     <FormField
                       control={loginForm.control}
@@ -139,7 +129,7 @@ export default function HeaderClient() {
                 <Form {...signupForm}>
                   <form
                     className="grid gap-4 py-4"
-                    onSubmit={signupForm.handleSubmit(onSignupSubmit)}
+                    // onSubmit={signupForm.handleSubmit(onSignupSubmit)}
                   >
                     <FormField
                       control={signupForm.control}

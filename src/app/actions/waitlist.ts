@@ -10,7 +10,7 @@ export async function joinWaitlist(email: string) {
     const supabase = await createClient();
 
     // Check if email already exists
-    const { data: existingUser, error: checkError } = await supabase
+    const { data: existingUser } = await supabase
       .from("waitlist")
       .select("id")
       .eq("email", email)
@@ -25,7 +25,7 @@ export async function joinWaitlist(email: string) {
     }
 
     // Insert new email into waitlist
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("waitlist")
       .insert([
         {

@@ -1,6 +1,5 @@
-import { type NextRequest } from "next/server";
-
-export async function middleware(request: NextRequest) {}
+// Empty middleware function - remove the unused parameter warning
+export async function middleware() {}
 
 export const config = {
   matcher: [
