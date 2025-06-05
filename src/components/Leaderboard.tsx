@@ -37,7 +37,7 @@ export default function Leaderboard({
   setTextColor,
 }: LeaderboardProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("Guest");
+  const [username] = useState("Guest");
 
   const handleReset = () => {
     setUserResponse("");
@@ -115,7 +115,6 @@ export default function Leaderboard({
                   entry.style.toLowerCase() === writingStyle.toLowerCase()
               )
               .map((entry, index) => {
-                console.log(entry);
                 return (
                   <div
                     key={index}

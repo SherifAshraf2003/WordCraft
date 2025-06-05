@@ -1,9 +1,5 @@
-import { type NextRequest } from "next/server";
-import { updateSession } from "./app/utils/supabase/middleware";
-
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
-}
+// Empty middleware function - remove the unused parameter warning
+export async function middleware() {}
 
 export const config = {
   matcher: [

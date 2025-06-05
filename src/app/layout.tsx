@@ -5,18 +5,19 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WordCraft",
-  description: "Ditch vague phrases that waste your message",
+  title: "WordCraft - Master Articulate Communication",
+  description:
+    "Ditch vague phrases that waste your message. Master the art of articulate communication with AI-powered feedback and competitive challenges.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }

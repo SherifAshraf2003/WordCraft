@@ -36,7 +36,6 @@ export default function Prompt({
   const handleSubmit = () => {
     // Handle the submission of the user's response
     // You can add your logic here to process the response
-    console.log("User Response:", userResponse);
 
     // Optionally, you can navigate to another screen or show a success message
     setSelectedScreen(2);
@@ -81,8 +80,8 @@ export default function Prompt({
             <h3 className={cn("text-sm font-medium", textColor)}>Prompt:</h3>
           </div>
           <p className="text-slate-700 ">
-            "Write a short story about a time traveler who accidentally alters a
-            significant event in history."
+            &quot;Write a short story about a time traveler who accidentally
+            alters a significant event in history.&quot;
           </p>
         </div>
 
