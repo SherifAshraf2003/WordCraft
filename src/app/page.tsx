@@ -1,3 +1,10 @@
+import Waitlist from "@/components/Waitlist";
+
+export default function Home() {
+  return <Waitlist />;
+}
+
+/* Original WordCraft Application Code - Commented out for waitlist launch
 "use client";
 import Analysis from "@/components/Analysis";
 import Header from "@/components/header";
@@ -106,3 +113,4 @@ export default function Home() {
     </div>
   );
 }
+*/
