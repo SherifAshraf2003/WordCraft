@@ -9,8 +9,6 @@ export async function GET(req: NextRequest) {
 
     const supabase = await createClient();
 
-    let query;
-
     if (style && style !== "all") {
       // Get leaderboard for specific style
       const { data, error } = await supabase.rpc("get_leaderboard_by_style", {
@@ -99,7 +97,7 @@ export async function GET(req: NextRequest) {
 }
 
 // POST endpoint to refresh the leaderboard materialized view
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     const supabase = await createClient();
 

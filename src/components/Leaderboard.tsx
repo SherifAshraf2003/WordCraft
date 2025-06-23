@@ -88,7 +88,7 @@ export default function Leaderboard({
       const result = await response.json();
 
       if (result.success) {
-        let data = result.data || [];
+        const data = result.data || [];
 
         // Add current user to the leaderboard if they have a score
         if (analysisResult?.overallScore) {
