@@ -47,30 +47,34 @@ export default function HeaderClient() {
       ) : (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-teal-600 hover:bg-teal-700 text-white cursor-pointer !py-5  ">
+            <Button className="bg-teal-600 hover:bg-teal-700 text-white cursor-pointer py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base">
               Login
             </Button>
           </DialogTrigger>
-          <DialogContent>
-            <Tabs className="w-full p-4 ">
-              <TabsList className="w-full grid grid-cols-2 ">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+          <DialogContent className="w-[95vw] max-w-md mx-auto">
+            <Tabs className="w-full p-2 sm:p-4">
+              <TabsList className="w-full grid grid-cols-2">
+                <TabsTrigger value="login" className="text-xs sm:text-sm">
+                  Login
+                </TabsTrigger>
+                <TabsTrigger value="signup" className="text-xs sm:text-sm">
+                  Sign Up
+                </TabsTrigger>
               </TabsList>
 
-              <TabsContent className="py-4" value="login">
+              <TabsContent className="py-3 sm:py-4" value="login">
                 <DialogHeader>
-                  <DialogTitle className="text-xl">
+                  <DialogTitle className="text-lg sm:text-xl">
                     Login to WordCraft
                   </DialogTitle>
-                  <DialogDescription className="text-lg">
+                  <DialogDescription className="text-sm sm:text-base">
                     Sign in to track your progress and compete on the
                     leaderboard.
                   </DialogDescription>
                 </DialogHeader>
                 <Form {...loginForm}>
                   <form
-                    className="grid gap-4 py-4"
+                    className="grid gap-3 sm:gap-4 py-3 sm:py-4"
                     // onSubmit={loginForm.handleSubmit(onLoginSubmit)}
                   >
                     <FormField
@@ -78,10 +82,11 @@ export default function HeaderClient() {
                       name="username"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Username</FormLabel>
+                          <FormLabel className="text-sm">Username</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Enter your username"
+                              className="text-sm sm:text-base"
                               {...field}
                             />
                           </FormControl>
@@ -94,20 +99,22 @@ export default function HeaderClient() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel className="text-sm">Password</FormLabel>
                           <FormControl>
                             <Input
+                              type="password"
                               placeholder="Enter your password"
+                              className="text-sm sm:text-base"
                               {...field}
                             />
                           </FormControl>
                         </FormItem>
                       )}
                     />
-                    <DialogFooter className=" mt-4 ">
+                    <DialogFooter className="mt-3 sm:mt-4">
                       <Button
                         type="submit"
-                        className="bg-teal-600  w-full  text-white hover:bg-teal-700  cursor-pointer !py-5  "
+                        className="bg-teal-600 w-full text-white hover:bg-teal-700 cursor-pointer py-2 sm:py-3 text-sm sm:text-base"
                       >
                         Login
                       </Button>
@@ -116,19 +123,19 @@ export default function HeaderClient() {
                 </Form>
               </TabsContent>
 
-              <TabsContent className="py-4" value="signup">
+              <TabsContent className="py-3 sm:py-4" value="signup">
                 <DialogHeader>
-                  <DialogTitle className="text-xl">
+                  <DialogTitle className="text-lg sm:text-xl">
                     Create an Account
                   </DialogTitle>
-                  <DialogDescription className="text-lg">
+                  <DialogDescription className="text-sm sm:text-base">
                     Join WordCraft to save your progress and compete with
                     others.
                   </DialogDescription>
                 </DialogHeader>
                 <Form {...signupForm}>
                   <form
-                    className="grid gap-4 py-4"
+                    className="grid gap-3 sm:gap-4 py-3 sm:py-4"
                     // onSubmit={signupForm.handleSubmit(onSignupSubmit)}
                   >
                     <FormField
@@ -136,10 +143,11 @@ export default function HeaderClient() {
                       name="username"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Username</FormLabel>
+                          <FormLabel className="text-sm">Username</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Enter your username"
+                              className="text-sm sm:text-base"
                               {...field}
                             />
                           </FormControl>
@@ -152,10 +160,12 @@ export default function HeaderClient() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel className="text-sm">Password</FormLabel>
                           <FormControl>
                             <Input
+                              type="password"
                               placeholder="Enter your password"
+                              className="text-sm sm:text-base"
                               {...field}
                             />
                           </FormControl>
@@ -168,18 +178,23 @@ export default function HeaderClient() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="text-sm">Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your email" {...field} />
+                            <Input
+                              type="email"
+                              placeholder="Enter your email"
+                              className="text-sm sm:text-base"
+                              {...field}
+                            />
                           </FormControl>
                         </FormItem>
                       )}
                     />
 
-                    <DialogFooter className="mt-4 ">
+                    <DialogFooter className="mt-3 sm:mt-4">
                       <Button
                         type="submit"
-                        className="bg-teal-600 w-full  text-white hover:bg-teal-700 cursor-pointer !py-5"
+                        className="bg-teal-600 w-full text-white hover:bg-teal-700 cursor-pointer py-2 sm:py-3 text-sm sm:text-base"
                       >
                         Sign Up
                       </Button>

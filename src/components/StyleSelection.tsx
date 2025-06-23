@@ -1,5 +1,5 @@
 "use client";
-import { Target } from "lucide-react";
+import { Target, Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -26,6 +26,9 @@ interface WritingStyleProps {
   setBorderColor: (color: string) => void;
   setBgColor: (color: string) => void;
   setTextColor: (color: string) => void;
+  setGeneratedPrompt: (prompt: string) => void;
+  setIsGeneratingPrompt: (loading: boolean) => void;
+  isGeneratingPrompt: boolean;
 }
 
 export default function StyleSelection({
@@ -35,15 +38,49 @@ export default function StyleSelection({
   setBorderColor,
   setBgColor,
   setTextColor,
+  setGeneratedPrompt,
+  setIsGeneratingPrompt,
+  isGeneratingPrompt,
 }: WritingStyleProps) {
-  const handleStyleChange = (style: StyleObject) => {
+  const handleStyleChange = async (style: StyleObject) => {
     setSelectedStyle(style.color);
     setBorderColor(style.borderColor);
     setWritingStyle(style.label);
     setBgColor(style.bgColor);
     setTextColor(style.textColor);
-    // Set the selected screen to 1 to show the prompt
-    setSelectedScreen(1);
+
+    // Generate prompt using LLM
+    setIsGeneratingPrompt(true);
+    try {
+      const response = await fetch("/api/generate-prompt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          writingStyle: style.label.toLowerCase(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate prompt");
+      }
+
+      const data = await response.json();
+      setGeneratedPrompt(data.prompt);
+
+      // Move to the next screen after prompt is generated
+      setSelectedScreen(1);
+    } catch (error) {
+      console.error("Error generating prompt:", error);
+      // Fallback to default prompt on error
+      setGeneratedPrompt(
+        "Write a compelling piece that demonstrates your mastery of this writing style."
+      );
+      setSelectedScreen(1);
+    } finally {
+      setIsGeneratingPrompt(false);
+    }
   };
 
   return (
@@ -68,14 +105,19 @@ export default function StyleSelection({
                 "flex flex-col items-center p-6 rounded-lg border transition-all cursor-pointer transform hover:-translate-y-1",
                 style.borderColor,
                 style.bgColor,
-                "hover:shadow-md hover:shadow-" + style.value + "-100 "
+                "hover:shadow-md hover:shadow-" + style.value + "-100",
+                isGeneratingPrompt && "opacity-50 cursor-not-allowed"
               )}
-              onClick={() => handleStyleChange(style)}
+              onClick={() => !isGeneratingPrompt && handleStyleChange(style)}
             >
               <div
                 className={`p-3 rounded-full bg-gradient-to-br ${style.color} mb-3 shadow-md`}
               >
-                {style.icon}
+                {isGeneratingPrompt ? (
+                  <Loader2 className="w-12 h-12 text-white animate-spin" />
+                ) : (
+                  style.icon
+                )}
               </div>
               <h3 className="text-lg font-medium text-slate-900  mb-1">
                 {style.label}
@@ -83,6 +125,11 @@ export default function StyleSelection({
               <p className="text-sm text-slate-600  text-center">
                 {style.description}
               </p>
+              {isGeneratingPrompt && (
+                <p className="text-xs text-slate-500 mt-2 animate-pulse">
+                  Generating prompt...
+                </p>
+              )}
             </div>
           ))}
         </div>

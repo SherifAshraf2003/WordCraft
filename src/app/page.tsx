@@ -1,10 +1,3 @@
-import Waitlist from "@/components/Waitlist";
-
-export default function Home() {
-  return <Waitlist />;
-}
-
-/* Original WordCraft Application Code - Commented out for waitlist launch
 "use client";
 import Analysis from "@/components/Analysis";
 import Header from "@/components/header";
@@ -30,10 +23,16 @@ export default function Home() {
   const [userResponse, setUserResponse] = useState("");
   const [selectedScreen, setSelectedScreen] = useState(0);
 
+  // New state for LLM integration
+  const [generatedPrompt, setGeneratedPrompt] = useState("");
+  const [analysisResult, setAnalysisResult] = useState(null);
+  const [isGeneratingPrompt, setIsGeneratingPrompt] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
   return (
     <div className=" flex flex-col bg-gradient-to-b from-teal-50 via-white to-teal-50 min-h-screen">
       <Header />
-      <main className="flex-1 py-8 px-4 sm:px-6 md:py-12 lg:px-8">
+      <main className="flex-1 py-3 px-4 sm:px-6  lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold tracking-tight text-teal-900 dark:text-teal-50 sm:text-4xl flex items-center justify-center gap-2">
@@ -67,6 +66,9 @@ export default function Home() {
                 setBorderColor={setBorderColor}
                 setBgColor={setBgColor}
                 setTextColor={setTextColor}
+                setGeneratedPrompt={setGeneratedPrompt}
+                setIsGeneratingPrompt={setIsGeneratingPrompt}
+                isGeneratingPrompt={isGeneratingPrompt}
               />
             )}
             {selectedScreen === 1 && (
@@ -79,6 +81,10 @@ export default function Home() {
                 userResponse={userResponse}
                 setUserResponse={setUserResponse}
                 setSelectedScreen={setSelectedScreen}
+                generatedPrompt={generatedPrompt}
+                setAnalysisResult={setAnalysisResult}
+                setIsAnalyzing={setIsAnalyzing}
+                isAnalyzing={isAnalyzing}
               />
             )}
 
@@ -91,6 +97,8 @@ export default function Home() {
                 textColor={textColor}
                 userResponse={userResponse}
                 setSelectedScreen={setSelectedScreen}
+                analysisResult={analysisResult}
+                generatedPrompt={generatedPrompt}
               />
             )}
 
@@ -105,6 +113,8 @@ export default function Home() {
                 setSelectedScreen={setSelectedScreen}
                 setSelectedStyle={setSelectedStyle}
                 setTextColor={setTextColor}
+                analysisResult={analysisResult}
+                setGeneratedPrompt={setGeneratedPrompt}
               />
             )}
           </section>
@@ -113,4 +123,3 @@ export default function Home() {
     </div>
   );
 }
-*/

@@ -50,31 +50,6 @@ export const writingStyles = [
     ),
   },
   {
-    value: "technical",
-    label: "Technical",
-    description: "Precise, detailed explanations of complex concepts",
-    color: "from-blue-500 to-sky-500",
-    textColor: "text-sky-500",
-    bgColor: "bg-gradient-to-br from-blue-50 to-sky-50 ",
-    borderColor: "border-sky-200 ",
-    icon: (
-      <svg
-        className="w-12 h-12 mb-2 text-white"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.5}
-          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-        ></path>
-      </svg>
-    ),
-  },
-  {
     value: "marketing",
     label: "Marketing",
     description: "Persuasive, engaging content that drives action",
