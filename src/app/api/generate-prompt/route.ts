@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+// import OpenAI from "openai";
+//
+// const openai = new OpenAI({
+//   baseURL: "https://openrouter.ai/api/v1",
+//   apiKey: process.env.OPENROUTER_API_KEY,
+// });
 
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-});
+// Gemini 2.5 Flash integration
+import { GoogleGenAI } from "@google/genai";
+const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 const stylePrompts = {
   professional:
@@ -34,43 +38,23 @@ export async function POST(req: NextRequest) {
     const systemPrompt =
       stylePrompts[writingStyle as keyof typeof stylePrompts];
 
-    const completion = await openai.chat.completions.create({
-      model: "meta-llama/llama-4-maverick:free",
-      messages: [
-        {
-          role: "system",
-          content: `You are a writing instructor creating prompts for WordCraft, an AI-powered writing skills enhancement platform. 
-
-About WordCraft:
-- Users select a writing style (Professional, Creative, Marketing, or Academic)
-- They receive a custom prompt tailored to that style
-- Users write a response to your prompt (typically 100-300 words)
-- Their response gets analyzed by AI for clarity, structure, word choice, grammar, and style-specific criteria
-- Users receive detailed feedback and scoring to improve their writing skills
-
-Your task: ${systemPrompt}
-
-Important guidelines:
-- The prompt should encourage a response that can be meaningfully analyzed
-- Make it specific enough to guide the writer but open enough for creativity
-- Ensure the prompt naturally leads to demonstrating the key skills of the chosen style
-- The user will write their response in a text area and submit it for AI evaluation
-- Aim for prompts that would result in 100-300 word responses
-- Keep the prompt concise (1-2 sentences) but engaging and clear
-- Do not include instructions about word count or format - just the creative prompt itself
-
-Return only the prompt itself with no additional commentary or explanation.`,
-        },
+    // Gemini 2.5 Flash API call
+    const result = await gemini.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
         {
           role: "user",
-          content: `Create a ${writingStyle} writing prompt that would challenge and engage a writer practicing this style.`,
+          parts: [
+            {
+              text: `You are a writing instructor creating prompts for WordCraft, an AI-powered writing skills enhancement platform.\n\nAbout WordCraft:\n- Users select a writing style (Professional, Creative, Marketing, or Academic)\n- They receive a custom prompt tailored to that style\n- Users write a response to your prompt (typically 100-300 words)\n- Their response gets analyzed by AI for clarity, structure, word choice, grammar, and style-specific criteria\n- Users receive detailed feedback and scoring to improve their writing skills\n\nYour task: ${systemPrompt}\n\nImportant guidelines:\n- The prompt should encourage a response that can be meaningfully analyzed\n- Make it specific enough to guide the writer but open enough for creativity\n- Ensure the prompt naturally leads to demonstrating the key skills of the chosen style\n- The user will write their response in a text area and submit it for AI evaluation\n- Aim for prompts that would result in 100-300 word responses\n- Keep the prompt concise (1-2 sentences) but engaging and clear\n- Do not include instructions about word count or format - just the creative prompt itself\n\nReturn only the prompt itself with no additional commentary or explanation.`,
+            },
+          ],
         },
       ],
-      max_tokens: 150,
-      temperature: 0.8,
     });
 
-    const generatedPrompt = completion.choices[0]?.message?.content?.trim();
+    const generatedPrompt =
+      result.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
     if (!generatedPrompt) {
       throw new Error("Failed to generate prompt");

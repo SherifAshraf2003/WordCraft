@@ -1,6 +1,6 @@
 "use client";
 import Analysis from "@/components/Analysis";
-import Header from "@/components/header";
+import Header from "../components/header";
 import Leaderboard from "@/components/Leaderboard";
 import ProgressBar from "@/components/progressBar";
 import Prompt from "@/components/Prompt";
@@ -28,6 +28,11 @@ export default function Home() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isGeneratingPrompt, setIsGeneratingPrompt] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const [userInfo, setUserInfo] = useState<{
+    username: string;
+    email?: string;
+  } | null>(null);
 
   return (
     <div className=" flex flex-col bg-gradient-to-b from-teal-50 via-white to-teal-50 min-h-screen">
@@ -115,6 +120,7 @@ export default function Home() {
                 setTextColor={setTextColor}
                 analysisResult={analysisResult}
                 setGeneratedPrompt={setGeneratedPrompt}
+                userInfo={userInfo}
               />
             )}
           </section>

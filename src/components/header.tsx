@@ -1,7 +1,7 @@
 import { Sparkles } from "lucide-react";
 import Link from "next/link";
 
-//import HeaderClient from "./headerClient";
+import HeaderClient from "./headerClient";
 
 export default function Header() {
   return (
@@ -14,7 +14,7 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* <HeaderClient /> */}
+        <HeaderClient />
       </div>
     </header>
   );

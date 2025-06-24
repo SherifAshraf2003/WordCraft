@@ -39,6 +39,7 @@ interface LeaderboardProps {
   setTextColor: (color: string) => void;
   analysisResult: any;
   setGeneratedPrompt: (prompt: string) => void;
+  userInfo?: { username: string; email?: string } | null;
 }
 
 export default function Leaderboard({
@@ -53,9 +54,8 @@ export default function Leaderboard({
   setTextColor,
   analysisResult,
   setGeneratedPrompt,
+  userInfo,
 }: LeaderboardProps) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username] = useState("Guest");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
   );
@@ -65,7 +65,6 @@ export default function Leaderboard({
   const handleReset = () => {
     setUserResponse("");
     setSelectedScreen(0);
-    setIsLoggedIn(false);
     setSelectedStyle("from-teal-500 to-emerald-500");
     setTextColor("text-teal-600");
     setGeneratedPrompt("");
@@ -78,7 +77,7 @@ export default function Leaderboard({
     try {
       const style = writingStyle.toLowerCase() || "all";
       const response = await fetch(
-        `/api/leaderboard?style=${encodeURIComponent(style)}&limit=20`
+        `/api/leaderboard?style=${encodeURIComponent(style)}&limit=100`
       );
 
       if (!response.ok) {
@@ -88,14 +87,14 @@ export default function Leaderboard({
       const result = await response.json();
 
       if (result.success) {
-        const data = result.data || [];
+        let data = result.data || [];
 
         // Add current user to the leaderboard if they have a score
-        if (analysisResult?.overallScore) {
+        if (analysisResult?.overallScore && userInfo?.username) {
           const userScore = analysisResult.overallScore;
           const userEntry: LeaderboardEntry = {
-            username: isLoggedIn ? username : "Guest",
-            display_name: isLoggedIn ? username : "Guest",
+            username: userInfo.username,
+            display_name: userInfo.username,
             writing_style: writingStyle,
             best_score: userScore,
             best_style_score: analysisResult.styleSpecificScore || userScore,
@@ -169,13 +168,22 @@ export default function Leaderboard({
   }, [writingStyle]); // Refetch when writing style changes
 
   const getFilteredLeaderboard = () => {
-    if (!writingStyle || writingStyle === "") {
-      return leaderboardData;
+    let filtered = leaderboardData;
+    if (writingStyle && writingStyle !== "") {
+      filtered = leaderboardData.filter(
+        (entry) =>
+          entry.writing_style.toLowerCase() === writingStyle.toLowerCase()
+      );
     }
-    return leaderboardData.filter(
-      (entry) =>
-        entry.writing_style.toLowerCase() === writingStyle.toLowerCase()
-    );
+    // Sort by best_score descending
+    filtered = filtered.sort((a, b) => b.best_score - a.best_score);
+    // Mark isCurrentUser
+    return filtered.map((entry) => ({
+      ...entry,
+      isCurrentUser:
+        userInfo?.username &&
+        entry.username?.toLowerCase() === userInfo.username.toLowerCase(),
+    }));
   };
 
   const displayData = getFilteredLeaderboard();

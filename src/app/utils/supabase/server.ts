@@ -7,7 +7,7 @@ interface CookieItem {
   options?: Record<string, unknown>;
 }
 
-export async function createClient() {
+export async function createClient(accessToken?: string) {
   const cookieStore = await cookies();
 
   return createServerClient(
@@ -30,6 +30,15 @@ export async function createClient() {
           }
         },
       },
+      ...(accessToken
+        ? {
+            global: {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+          }
+        : {}),
     }
   );
 }

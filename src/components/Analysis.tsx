@@ -21,6 +21,7 @@ import {
 import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { createClient } from "@/app/utils/supabase/client";
 
 interface AnalysisProps {
   selectedStyle: string;
@@ -32,6 +33,7 @@ interface AnalysisProps {
   setSelectedScreen: (screen: number) => void;
   analysisResult: any;
   generatedPrompt?: string;
+  userInfo?: any;
 }
 
 export default function Analysis({
@@ -44,6 +46,7 @@ export default function Analysis({
   setSelectedScreen,
   analysisResult,
   generatedPrompt,
+  userInfo,
 }: AnalysisProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -90,8 +93,12 @@ export default function Analysis({
     setSaveError(null);
 
     try {
+      const supabase = createClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       const gameData = {
-        username: "Guest", // For now, using Guest. This can be updated when authentication is added
+        username: userInfo?.username || "Guest", // If you have userInfo in props/context, use it
         promptText: generatedPrompt || data.prompt || "Default prompt",
         userResponse: userResponse,
         writingStyle: writingStyle.toLowerCase(),
@@ -114,6 +121,9 @@ export default function Analysis({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(session?.access_token
+            ? { Authorization: `Bearer ${session.access_token}` }
+            : {}),
         },
         body: JSON.stringify(gameData),
       });

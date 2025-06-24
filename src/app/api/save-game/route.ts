@@ -24,7 +24,10 @@ interface GameData {
 export async function POST(req: NextRequest) {
   try {
     const gameData: GameData = await req.json();
-    const supabase = await createClient();
+    // Get access token from Authorization header
+    const authHeader = req.headers.get("authorization");
+    const token = authHeader?.split(" ")[1];
+    const supabase = await createClient(token);
 
     // Validate required fields
     if (
@@ -62,52 +65,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let userId: string;
+    let userId: string | undefined;
 
-    // Handle guest user or authenticated user
-    if (
-      !gameData.username ||
-      gameData.username === "Guest" ||
-      gameData.username.startsWith("Guest_")
-    ) {
-      // Create or get guest user
-      const { data: guestUserId, error: guestError } = await supabase.rpc(
-        "get_or_create_guest_user",
-        {
-          guest_username: gameData.username || null,
-        }
-      );
+    // Try to get the authenticated user from Supabase Auth
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
 
-      if (guestError) {
-        console.error("Guest user creation error:", guestError);
-        return NextResponse.json(
-          { error: "Failed to create guest user" },
-          { status: 500 }
-        );
-      }
-
-      userId = guestUserId;
-    } else {
-      // Handle registered user - check if user exists
-      const { data: existingUser, error: userError } = await supabase
+    if (authUser) {
+      // Use the authenticated user's ID to look up the users table
+      const { data: dbUser, error: dbUserError } = await supabase
         .from("users")
         .select("id")
-        .eq("username", gameData.username)
+        .eq("email", authUser.email)
         .eq("is_guest", false)
         .single();
-
-      if (userError || !existingUser) {
-        // Create new registered user
+      if (dbUserError || !dbUser) {
+        // If not found, create a new user row
         const { data: newUser, error: createError } = await supabase
           .from("users")
           .insert({
-            username: gameData.username,
-            display_name: gameData.username,
+            username: gameData.username || authUser.email,
+            email: authUser.email,
+            display_name: gameData.username || authUser.email,
             is_guest: false,
           })
           .select("id")
           .single();
-
         if (createError) {
           console.error("User creation error:", createError);
           return NextResponse.json(
@@ -115,11 +99,26 @@ export async function POST(req: NextRequest) {
             { status: 500 }
           );
         }
-
         userId = newUser.id;
       } else {
-        userId = existingUser.id;
+        userId = dbUser.id;
       }
+    } else {
+      // Guest user logic (no authenticated user)
+      const { data: guestUserId, error: guestError } = await supabase.rpc(
+        "get_or_create_guest_user",
+        {
+          guest_username: gameData.username || null,
+        }
+      );
+      if (guestError) {
+        console.error("Guest user creation error:", guestError);
+        return NextResponse.json(
+          { error: "Failed to create guest user" },
+          { status: 500 }
+        );
+      }
+      userId = guestUserId;
     }
 
     // Save the game result
