@@ -29,6 +29,8 @@ export default function Home() {
   const [isGeneratingPrompt, setIsGeneratingPrompt] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
+  console.log("helloo");
+
   const [userInfo, setUserInfo] = useState<{
     username: string;
     email?: string;
